@@ -1,5 +1,6 @@
 import argparse
 import asyncio
+from logger import logging
 from aiopath import AsyncPath
 from aioshutil import copyfile
 
@@ -10,7 +11,7 @@ async def read_folder(path: AsyncPath):
 
 async def copy_file(source: AsyncPath, destination: AsyncPath):
     await copyfile(source, destination)
-    print(f"Copied from {source} to {destination}")
+    logging.info(f"Copied from {source} to {destination}")
 
 
 async def copy_content(source: AsyncPath, destination: AsyncPath):
@@ -33,10 +34,11 @@ async def copy_content(source: AsyncPath, destination: AsyncPath):
                 await copy_content(current_path, destination)
 
     except Exception as e:
-        print(f"Failed to copy files from {source} to {destination}: {e}")
+        logging.info(f"Failed to copy files from {source} to {destination}: {e}")
 
 
 async def main():
+    logging.info("Start app")
     parser = argparse.ArgumentParser(
         prog="File Mapper",
         description="Copies files to the folders based on the extension",
